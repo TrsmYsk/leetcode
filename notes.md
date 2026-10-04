@@ -31,6 +31,7 @@ https://leetcode.com/problems/find-k-pairs-with-smallest-sums/description/
 - C = [nums1[i], nums2[j]]という行列を考えると、今いる場所(i,j)から右か下に動くと必ずより大きなペアになる
 - (0, 0)成分から探索を初めて、順次、右の要素と下の要素を管理用のヒープに追加していく
 - 時間計算量O(klogk)なので、実行時間は雑に見積もって1.2ms程度
+- 候補管理のヒープにプッシュする処理内容に重複があるので、当該処理を関数化した(push_to_heap())
 
 ## plan3: generatorで候補を逐次生成する
 - chat-GPTに教えてもらった方法
