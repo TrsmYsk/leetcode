@@ -29,12 +29,6 @@ import heapq
 
 class Solution:
     def kSmallestPairs(self, nums1: list[int], nums2: list[int], k: int) -> list[list[int]]:
-        def push_to_heap(candidates, visited, index1, index2):
-            if index1 < len(nums1) and index2 < len(nums2) and (index1, index2) not in visited:
-                candidate = (nums1[index1] + nums2[index2], index1, index2)
-                heapq.heappush(candidates, candidate)
-                visited.add((index1, index2))
-
         if not nums1 or not nums2:
             raise ValueError("input lists must contain at least 1 element")
         if k <= 0:
@@ -42,13 +36,20 @@ class Solution:
 
         candidates = []
         visited = set()
-        push_to_heap(candidates, visited, 0, 0)
+
+        def push_to_heap(index1, index2):
+            if index1 < len(nums1) and index2 < len(nums2) and (index1, index2) not in visited:
+                candidate = (nums1[index1] + nums2[index2], index1, index2)
+                heapq.heappush(candidates, candidate)
+                visited.add((index1, index2))
+
+        push_to_heap(0, 0)
         k_smallests = []
         while candidates and len(k_smallests) < k:
             _, index1, index2 = heapq.heappop(candidates)
             k_smallests.append([nums1[index1], nums2[index2]])
-            push_to_heap(candidates, visited, index1 + 1, index2)
-            push_to_heap(candidates, visited, index1, index2 + 1)
+            push_to_heap(index1 + 1, index2)
+            push_to_heap(index1, index2 + 1)
 
         return k_smallests
 
